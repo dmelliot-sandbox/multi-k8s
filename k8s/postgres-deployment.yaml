@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector: # How to get a handle on newly created pod(s) to manage them
+    matchLabels:
+      component: postgres
+  template: # Pod template: This section similar to yaml for pod
+    metadata:
+      labels:
+        component: postgres # How to find/identify these containers
+    spec:
+      volumes:  # Just allocates the storage, doesn't assign to container
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: postgres
+          image: postgres
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+          ports:
+            - containerPort: 5432 # The port exposed by this container
+          volumeMounts:
+            - name: postgres-storage # assigns volume to this container
+              mountPath: /var/lib/postgresql/data #default loc for postgres
+              subPath: postgres # special option required for postgres

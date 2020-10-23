@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+spec:
+  replicas: 1
+  selector: # How to get a handle on newly created pod(s) to manage them
+    matchLabels:
+      component: redis
+  template: # Pod template: This section similar to yaml for pod
+    metadata:
+      labels:
+        component: redis # How to find/identify these containers
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379 # The port exposed by this container
