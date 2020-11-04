@@ -42,3 +42,6 @@ deploy:
 # helm install my-release ingress-nginx/ingress-nginx
 
 # After this we should see ingress in GCP and LB etc.
+#
+#
+# https://github.com/StephenGrider/DockerCasts
