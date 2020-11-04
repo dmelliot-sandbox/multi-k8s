@@ -20,15 +20,11 @@ before_install:
 script:
   - docker run -e CI=true dmelliot/react-test npm test
 
-
-
-
 deploy:
   provider: script
   script: bash ./deploy.sh
   on:
     branch: master
-
 
 ## GCP Cloud Console setup
 # gcloud config set project multi-k8s-293421
